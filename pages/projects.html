@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Ivan Fady - Creative Frontend Developer</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': {
+                            DEFAULT: '#4361ee',
+                            dark: '#3a56d4',
+                        },
+                        'secondary': {
+                            DEFAULT: '#7209b7',
+                            dark: '#5e0795',
+                        },
+                        'accent': {
+                            DEFAULT: '#f9c74f',
+                            dark: '#e0b446',
+                        },
+                        'dark-bg': '#0a0a0f',
+                        'dark-card': '#16161d',
+                        'light-bg': '#f8fafc',
+                        'light-card': '#ffffff',
+                    },
+                    fontFamily: {
+                        'sans': ['Space Grotesk', 'system-ui', 'sans-serif'],
+                        'mono': ['Fira Code', 'monospace'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'slide-up': 'slideUp 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(67, 97, 238, 0.3)' },
+                            '100%': { boxShadow: '0 0 30px rgba(67, 97, 238, 0.6)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    },
+                    backgroundImage: {
+                        'gradient-primary': 'linear-gradient(135deg, #4361ee 0%, #7209b7 100%)',
+                        'gradient-accent': 'linear-gradient(135deg, #f9c74f 0%, #f9844a 100%)',
+                        'gradient-dark': 'linear-gradient(135deg, #16161d 0%, #0a0a0f 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        
+        .dark body {
+            background-color: #0a0a0f;
+            color: #e2e8f0;
+        }
+        
+        .glass-card, .gradient-border, .project-card, .filter-btn {
+            transition: all 0.5s ease;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+        
+        .dark .glass-card {
+            background: rgba(22, 22, 29, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #4361ee 0%, #7209b7 50%, #f9c74f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-border {
+            border: 2px solid transparent;
+            background: linear-gradient(#f8fafc, #f8fafc) padding-box,
+                        linear-gradient(135deg, #4361ee, #7209b7) border-box;
+        }
+        
+        .dark .gradient-border {
+            background: linear-gradient(#0a0a0f, #0a0a0f) padding-box,
+                        linear-gradient(135deg, #4361ee, #7209b7) border-box;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #4361ee, #7209b7);
+            margin-top: 8px;
+        }
+        
+        .dark .section-title::after {
+            background: linear-gradient(to right, #f9c74f, #f9844a);
+        }
+        
+        .nav-link.active {
+            color: #4361ee;
+            font-weight: 600;
+        }
+        
+        .dark .nav-link.active {
+            color: #f9c74f;
+        }
+        
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .dark .project-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+        
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+        }
+        
+        .project-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-light-bg dark:bg-dark-bg text-gray-800 dark:text-gray-200">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-dark-card/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="../index.html" class="text-2xl font-bold gradient-text">Ivan Fady</a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="../index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent transition">Home</a>
+                    <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent transition">About</a>
+                    <a href="projects.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent transition">Projects</a>
+                    <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent transition">Contact</a>
+                    
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                        <i id="theme-icon" class="fas fa-moon text-gray-700 dark:text-yellow-400"></i>
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                    <i class="fas fa-bars text-gray-700 dark:text-gray-300"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden fixed top-16 right-0 w-64 h-[calc(100vh-4rem)] bg-white dark:bg-dark-card border-l border-gray-200 dark:border-gray-800 p-6">
+            <div class="flex flex-col space-y-6">
+                <a href="../index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent transition text-lg">Home</a>
+                <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent transition text-lg">About</a>
+                <a href="projects.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent transition text-lg">Projects</a>
+                <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent transition text-lg">Contact</a>
+                
+                <!-- Mobile Theme Toggle -->
+                <button id="theme-toggle-mobile" class="p-3 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition flex items-center space-x-3">
+                    <i id="theme-icon-mobile" class="fas fa-moon text-gray-700 dark:text-yellow-400"></i>
+                    <span class="text-gray-700 dark:text-gray-300">Toggle Theme</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-12 px-6">
+        <div class="container mx-auto">
+            <div class="text-center">
+                <h1 class="text-4xl lg:text-5xl font-bold mb-6">
+                    My <span class="gradient-text">Projects</span>
+                </h1>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    A collection of my recent work showcasing modern web development, 
+                    creative design solutions, and technical expertise.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Filters -->
+    <section class="py-8 px-6">
+        <div class="container mx-auto">
+            <div class="flex flex-wrap justify-center gap-3 mb-12">
+                <button class="filter-btn px-6 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition active" data-filter="all">
+                    All Projects
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition" data-filter="web">
+                    Web Applications
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition" data-filter="ui">
+                    UI/UX Design
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition" data-filter="mobile">
+                    Responsive Design
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="py-8 px-6 pb-20">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card glass-card rounded-2xl overflow-hidden animate-slide-up" data-category="web">
+                    <div class="project-image bg-gradient-primary"></div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold">E-Commerce Dashboard</h3>
+                            <span class="px-3 py-1 bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light rounded-full text-sm">Web</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">
+                            A comprehensive admin dashboard for e-commerce analytics with real-time data visualization, 
+                            inventory management, and sales tracking.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">React</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">Chart.js</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">Tailwind</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="#" class="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg text-center transition">
+                                <i class="fab fa-github mr-2"></i> Code
+                            </a>
+                            <a href="#" class="flex-1 px-4 py-2 bg-gradient-primary text-white hover:shadow-lg rounded-lg text-center transition">
+                                <i class="fas fa-external-link-alt mr-2"></i> Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card glass-card rounded-2xl overflow-hidden animate-slide-up" data-category="web">
+                    <div class="project-image bg-gradient-accent"></div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold">Video Streaming Platform</h3>
+                            <span class="px-3 py-1 bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light rounded-full text-sm">Web</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">
+                            Netflix-inspired streaming service with user profiles, recommendation engine, 
+                            and adaptive video streaming for optimal performance.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">Next.js</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">TypeScript</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">Firebase</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="#" class="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg text-center transition">
+                                <i class="fab fa-github mr-2"></i> Code
+                            </a>
+                            <a href="#" class="flex-1 px-4 py-2 bg-gradient-primary text-white hover:shadow-lg rounded-lg text-center transition">
+                                <i class="fas fa-external-link-alt mr-2"></i> Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card glass-card rounded-2xl overflow-hidden animate-slide-up" data-category="ui">
+                    <div class="project-image bg-gradient-to-r from-purple-500 to-pink-500"></div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold">Design System</h3>
+                            <span class="px-3 py-1 bg-secondary/10 text-secondary dark:bg-secondary/20 dark:text-secondary-light rounded-full text-sm">UI/UX</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">
+                            Comprehensive design system with reusable components, design tokens, 
+                            and accessibility guidelines for consistent user interfaces.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">Figma</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">Storybook</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">React</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="#" class="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg text-center transition">
+                                <i class="fab fa-figma mr-2"></i> Design
+                            </a>
+                            <a href="#" class="flex-1 px-4 py-2 bg-gradient-primary text-white hover:shadow-lg rounded-lg text-center transition">
+                                <i class="fas fa-external-link-alt mr-2"></i> Live
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="project-card glass-card rounded-2xl overflow-hidden animate-slide-up" data-category="mobile">
+                    <div class="project-image bg-gradient-to-r from-cyan-500 to-blue-500"></div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold">Fitness App</h3>
+                            <span class="px-3 py-1 bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent-dark rounded-full text-sm">Responsive</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">
+                            Cross-platform fitness application with workout tracking, nutrition planning, 
+                            and progress analytics fully responsive across all devices.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">React Native</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">Firebase</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">Redux</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="#" class="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg text-center transition">
+                                <i class="fab fa-github mr-2"></i> Code
+                            </a>
+                            <a href="#" class="flex-1 px-4 py-2 bg-gradient-primary text-white hover:shadow-lg rounded-lg text-center transition">
+                                <i class="fas fa-external-link-alt mr-2"></i> Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 5 -->
+                <div class="project-card glass-card rounded-2xl overflow-hidden animate-slide-up" data-category="web">
+                    <div class="project-image bg-gradient-to-r from-green-500 to-emerald-500"></div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold">Task Management System</h3>
+                            <span class="px-3 py-1 bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light rounded-full text-sm">Web</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">
+                            Collaborative task management platform with real-time updates, team collaboration features, 
+                            and project timeline visualization.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">Vue.js</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">Node.js</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">MongoDB</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="#" class="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg text-center transition">
+                                <i class="fab fa-github mr-2"></i> Code
+                            </a>
+                            <a href="#" class="flex-1 px-4 py-2 bg-gradient-primary text-white hover:shadow-lg rounded-lg text-center transition">
+                                <i class="fas fa-external-link-alt mr-2"></i> Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 6 -->
+                <div class="project-card glass-card rounded-2xl overflow-hidden animate-slide-up" data-category="ui">
+                    <div class="project-image bg-gradient-to-r from-orange-500 to-red-500"></div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold">Portfolio Template</h3>
+                            <span class="px-3 py-1 bg-secondary/10 text-secondary dark:bg-secondary/20 dark:text-secondary-light rounded-full text-sm">UI/UX</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">
+                            Modern portfolio template with dark/light mode, smooth animations, 
+                            and fully responsive design for creative professionals.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">HTML/CSS</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">JavaScript</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">GSAP</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="#" class="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg text-center transition">
+                                <i class="fab fa-github mr-2"></i> Code
+                            </a>
+                            <a href="#" class="flex-1 px-4 py-2 bg-gradient-primary text-white hover:shadow-lg rounded-lg text-center transition">
+                                <i class="fas fa-external-link-alt mr-2"></i> Live
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden text-center py-16">
+                <i class="fas fa-search text-6xl text-gray-300 dark:text-gray-700 mb-6"></i>
+                <h3 class="text-2xl font-bold mb-4">No projects found</h3>
+                <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+                    Try selecting a different filter category to see more projects.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 bg-gradient-dark text-white">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-8 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">Ivan Fady</h3>
+                    <p class="text-gray-400">Crafting digital experiences with code and creativity.</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-800 hover:bg-primary transition flex items-center justify-center">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-800 hover:bg-blue-600 transition flex items-center justify-center">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-800 hover:bg-pink-600 transition flex items-center justify-center">
+                        <i class="fab fa-dribbble text-xl"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-800 hover:bg-blue-400 transition flex items-center justify-center">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 Ivan Fady. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top p-4 bg-gradient-primary text-white rounded-full shadow-lg hover:shadow-xl transition">
+        <i class="fas fa-arrow-up text-xl"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+        });
+        
+        // Close mobile menu when clicking outside or on a link
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+                mobileMenu.classList.remove('open');
+            }
+            
+            // Close menu when clicking on a nav link
+            if (e.target.classList.contains('nav-link')) {
+                mobileMenu.classList.remove('open');
+            }
+        });
+        
+        // Set active navigation link
+        const currentPage = window.location.pathname.split('/').pop() || 'projects.html';
+        document.querySelectorAll('.nav-link').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPage) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Project Filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projects = document.querySelectorAll('.project-card');
+        const projectsGrid = document.getElementById('projects-grid');
+        const emptyState = document.getElementById('empty-state');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Get filter value
+                const filterValue = button.getAttribute('data-filter');
+                
+                // Filter projects
+                let visibleCount = 0;
+                projects.forEach(project => {
+                    const category = project.getAttribute('data-category');
+                    
+                    if (filterValue === 'all' || category === filterValue) {
+                        project.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        project.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide empty state
+                if (visibleCount === 0) {
+                    projectsGrid.style.display = 'none';
+                    emptyState.classList.remove('hidden');
+                } else {
+                    projectsGrid.style.display = 'grid';
+                    emptyState.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeIconMobile = document.getElementById('theme-icon-mobile');
+        
+        // Check for saved theme preference or default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            themeIconMobile.classList.remove('fa-moon');
+            themeIconMobile.classList.add('fa-sun');
+        }
+        
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                themeIconMobile.classList.remove('fa-moon');
+                themeIconMobile.classList.add('fa-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                themeIconMobile.classList.remove('fa-sun');
+                themeIconMobile.classList.add('fa-moon');
+            }
+        }
+        
+        themeToggle.addEventListener('click', toggleTheme);
+        themeToggleMobile.addEventListener('click', toggleTheme);
+        
+        // Initialize animations on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-slide-up');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements for animation
+        document.querySelectorAll('.project-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
